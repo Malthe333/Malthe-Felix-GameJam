@@ -57,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 25
+  spritePixelsToUnits: 20
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -106,15 +106,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HealthBar_0
+      name: HealthBar_Circle
       rect:
         serializedVersion: 2
         x: 33
         y: 75
-        width: 78
+        width: 20
         height: 22
-      alignment: 9
-      pivot: {x: 0.13461539, y: 0.5}
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -128,7 +128,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HealthBar_1
+      name: HealthBar_Heart
       rect:
         serializedVersion: 2
         x: 38
@@ -136,7 +136,7 @@ TextureImporter:
         width: 11
         height: 10
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 1.3636364, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -150,14 +150,14 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HealthBar_2
+      name: HealthBar_Fill
       rect:
         serializedVersion: 2
         x: 53
         y: 98
-        width: 56
+        width: 1
         height: 4
-      alignment: 9
+      alignment: 4
       pivot: {x: 0, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -167,6 +167,50 @@ TextureImporter:
       bones: []
       spriteID: 0557772a9a086d540800000000000000
       internalID: 5032351099696674128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HealthBar_Empty
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 75
+        width: 1
+        height: 22
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 299512c8c10c2659a8a5074b9f0aafb6
+      internalID: 964035101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HealthBar_End
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 75
+        width: 1
+        height: 22
+      alignment: 9
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd9819de356d07e6d9176e8501fe5a6e
+      internalID: 815219171
       vertices: []
       indices: 
       edges: []
@@ -185,9 +229,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      HealthBar_0: -8227546954408941770
-      HealthBar_1: -3178617384780871938
-      HealthBar_2: 5032351099696674128
+      HealthBar_Circle: -8227546954408941770
+      HealthBar_Empty: 964035101
+      HealthBar_End: 815219171
+      HealthBar_Fill: 5032351099696674128
+      HealthBar_Heart: -3178617384780871938
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
