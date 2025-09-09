@@ -8,6 +8,8 @@ public class Altar : MonoBehaviour
     public float activationTime = 3f;
     public bool isReusable = false;
     public UnityEvent OnActivate;
+    public Color activeColor = Color.red;
+    public Color inactiveColor = Color.darkRed;
 
     private float keyDownTime;
     private bool playerOnAltar;
@@ -32,17 +34,25 @@ public class Altar : MonoBehaviour
             if (Time.time - keyDownTime >= activationTime && Input.GetKey(activationKey) && altarFunctioning)
             {
                 OnActivate?.Invoke();
-                altarFunctioning = false;
+
+                if (isReusable)
+                {
+                    keyDownTime = Time.time;
+                }
+                else
+                {
+                    altarFunctioning = false;
+                }
             }
         }
 
         if (altarFunctioning)
         {
-            spriteRenderer.color = Color.white;
+            spriteRenderer.color = activeColor;
         }
         else
         {
-            spriteRenderer.color = Color.gray;
+            spriteRenderer.color = inactiveColor;
         }
     }
 
@@ -51,6 +61,11 @@ public class Altar : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerOnAltar = true;
+        }
+
+        if (Input.GetKey(activationKey))
+        {
+            keyDownTime = Time.time;
         }
     }
 
