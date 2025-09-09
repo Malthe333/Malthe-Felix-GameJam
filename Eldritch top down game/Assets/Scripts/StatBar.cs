@@ -5,6 +5,7 @@ public class StatBar : MonoBehaviour
     public bool jitter = false;
     public float statValue = 50;
     public float statMax = 100;
+    // Needed to calculate how much to offset the end of the bar by
     public float pixelPerUnit = 20;
 
     public Transform bar;
@@ -45,5 +46,25 @@ public class StatBar : MonoBehaviour
         {
             heart.localPosition = new Vector3(0f, 0f, heart.position.z);
         }
+    }
+
+    public void SetStatMax(float newMax, bool keepRelativeFullness = false)
+    {
+        if (keepRelativeFullness)
+        {
+            float fullness = statValue / statMax;
+            statValue = fullness * newMax;
+        }
+        
+        statMax = newMax;
+        if (statValue > statMax)
+        {
+            statValue = statMax;
+        }
+    }
+
+    public void SetStatValue(float newValue)
+    {
+        statValue = Mathf.Clamp(newValue, 0, statMax);
     }
 }
