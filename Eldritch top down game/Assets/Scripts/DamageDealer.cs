@@ -22,7 +22,7 @@ public class DamageDealer : MonoBehaviour
         {
             other.SendMessage("TakeDamage", damage); // Activate when player hits skeleton
         }
-        else if (other.gameObject.tag == "Player")
+        else if (other.gameObject.tag == "Player" && isEnemy)
 {
             other.SendMessage("TakeDamagePlayer", enemyDamage); // Activate when enemy hits player
         }

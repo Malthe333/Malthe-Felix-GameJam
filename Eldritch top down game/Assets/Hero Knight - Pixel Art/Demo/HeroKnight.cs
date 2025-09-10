@@ -16,6 +16,8 @@ public class HeroKnight : MonoBehaviour
 
     private Animator m_animator;
 
+    public bool isFlipped;
+
     private Rigidbody2D m_body2d;
 
     public UnityEvent OnDarkBolt;
@@ -111,12 +113,14 @@ public class HeroKnight : MonoBehaviour
         if (inputX > 0 && !isdead)
         {
             GetComponent<SpriteRenderer>().flipX = false;
+           
             m_facingDirection = 1;
         }
 
         else if (inputX < 0 && !isdead)
         {
             GetComponent<SpriteRenderer>().flipX = true;
+            
             m_facingDirection = -1;
         }
 
@@ -190,8 +194,16 @@ public class HeroKnight : MonoBehaviour
             m_animator.SetTrigger("DarkBolt");
             ///EffectsAnimator.SetTrigger("DarkBolt");
             cancastDarkBolt = false;
-            OnDarkBolt.Invoke();
             Invoke("ResetDarkBolt", 3.0f);
+            if (m_facingDirection > 0)
+            {
+                isFlipped = false;
+            }
+            else if (m_facingDirection < 0)
+            {
+                isFlipped = true;
+            }
+            OnDarkBolt.Invoke();
         }
 
 

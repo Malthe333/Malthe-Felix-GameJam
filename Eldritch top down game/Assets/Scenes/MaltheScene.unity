@@ -119,6 +119,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &33498910
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4370479401131100643, guid: 2233bf686e2e45b4b98031117b86073b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.788357
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370479401131100643, guid: 2233bf686e2e45b4b98031117b86073b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.05293429
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370479401131100643, guid: 2233bf686e2e45b4b98031117b86073b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370479401131100643, guid: 2233bf686e2e45b4b98031117b86073b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370479401131100643, guid: 2233bf686e2e45b4b98031117b86073b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370479401131100643, guid: 2233bf686e2e45b4b98031117b86073b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370479401131100643, guid: 2233bf686e2e45b4b98031117b86073b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370479401131100643, guid: 2233bf686e2e45b4b98031117b86073b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370479401131100643, guid: 2233bf686e2e45b4b98031117b86073b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370479401131100643, guid: 2233bf686e2e45b4b98031117b86073b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717487938599614303, guid: 2233bf686e2e45b4b98031117b86073b, type: 3}
+      propertyPath: m_Name
+      value: SkeletonEnemy
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2233bf686e2e45b4b98031117b86073b, type: 3}
 --- !u!1 &256768491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,6 +1072,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9043920546160527475, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9043920546160527475, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
       propertyPath: OnDarkBolt.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -1094,6 +1155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dc454eeb2b14274b854e99ae58b34ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DarkBolt
+  heroKnight: {fileID: 1414967570}
   darkBoltPrefab: {fileID: 3024548212297761329, guid: 94938eb68dee2c5409824abf4a721405, type: 3}
 --- !u!114 &1414967569 stripped
 MonoBehaviour:
@@ -1575,3 +1637,4 @@ SceneRoots:
   - {fileID: 510097922}
   - {fileID: 4242250624766921681}
   - {fileID: 1813117636}
+  - {fileID: 33498910}
