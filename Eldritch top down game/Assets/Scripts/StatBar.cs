@@ -3,6 +3,7 @@ using UnityEngine;
 public class StatBar : MonoBehaviour
 {
     public bool jitter = false;
+    public float jitterThreshold = 0.2f;
     public float statValue = 50;
     public float statMax = 100;
     // Needed to calculate how much to offset the end of the bar by
@@ -38,7 +39,7 @@ public class StatBar : MonoBehaviour
         heartRenderer.color = heartColor;
         */
         
-        if (jitter)
+        if (jitter && statValue/statMax < jitterThreshold)
         {
             heart.localPosition = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.05f, 0.05f), heart.position.z);
         }

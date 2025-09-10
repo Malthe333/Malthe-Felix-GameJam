@@ -9,7 +9,6 @@ public class WizardBehaviour : Enemy
     
     private Animator animator;
     private float lastAttackTime;
-    private bool attacksChained = false;
 
     // Precompute animation hashes
     private static readonly int Death = Animator.StringToHash("Death");
