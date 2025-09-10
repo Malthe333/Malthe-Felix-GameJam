@@ -1,18 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEngine.Events;
 
 public class HeroKnight : MonoBehaviour
 {
 
     [SerializeField] float m_speed = 4.0f;
-    [SerializeField] float m_jumpForce = 7.5f;
+    
     [SerializeField] float m_rollForce = 6.0f;
-    [SerializeField] bool m_noBlood = false;
+
     [SerializeField] GameObject m_slideDust;
+
+    public UnityEvent OnDeath;
 
     private Animator m_animator;
     private Rigidbody2D m_body2d;
+
+    public int health = 100;
+
+    public bool isdead = false;
 
     private Sensor_HeroKnight m_groundSensor;
 
@@ -22,11 +29,7 @@ public class HeroKnight : MonoBehaviour
     private Sensor_HeroKnight   m_wallSensorL1;
     private Sensor_HeroKnight   m_wallSensorL2;
     */
-    private bool m_isWallSliding = false;
-    private bool m_grounded = false;
-
-    private bool m_standingStill = true;
-
+    
     private bool m_blocking = false;
     private bool m_rolling = false;
     private int m_facingDirection = 1;
@@ -87,7 +90,7 @@ public class HeroKnight : MonoBehaviour
         // -- Handle input and movement --
         float inputX = Input.GetAxis("Horizontal");
         float inputY = Input.GetAxis("Vertical");
-        if (!m_blocking)
+        if (!m_blocking && !isdead)
         {
             m_body2d.linearVelocity = new Vector2(inputX * m_speed, inputY * m_speed);
         }
@@ -95,16 +98,16 @@ public class HeroKnight : MonoBehaviour
         {
             m_body2d.linearVelocity = new Vector2(0, 0);
         }
-        
+
 
         // Swap direction of sprite depending on walk direction
-        if (inputX > 0)
+        if (inputX > 0 && !isdead)
         {
             GetComponent<SpriteRenderer>().flipX = false;
             m_facingDirection = 1;
         }
 
-        else if (inputX < 0)
+        else if (inputX < 0 && !isdead)
         {
             GetComponent<SpriteRenderer>().flipX = true;
             m_facingDirection = -1;
@@ -114,7 +117,7 @@ public class HeroKnight : MonoBehaviour
 
 
         //Attack
-        if (Input.GetKeyDown("e") && m_timeSinceAttack > 0.25f && !m_rolling)
+        if (Input.GetKeyDown("e") && m_timeSinceAttack > 0.25f && !m_rolling && !isdead)
         {
             m_currentAttack++;
             Debug.Log("Hurt");
@@ -135,45 +138,45 @@ public class HeroKnight : MonoBehaviour
         }
 
         // Block
-        if (Input.GetMouseButtonDown(1) && !m_rolling)
+        if (Input.GetMouseButtonDown(1) && !m_rolling && !isdead)
         {
             m_animator.SetTrigger("Block");
             m_blocking = true;
             m_animator.SetBool("IdleBlock", true);
         }
 
-        else if (Input.GetMouseButtonUp(1))
+        else if (Input.GetMouseButtonUp(1) && !isdead)
         {
             m_animator.SetBool("IdleBlock", false);
             m_blocking = false;
         }
 
         // Roll
-        else if (Input.GetKeyDown("left shift") && !m_rolling)
-            {
-                m_rolling = true;
-                m_animator.SetTrigger("Roll");
-                m_body2d.linearVelocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.linearVelocity.y);
-            }
+        else if (Input.GetKeyDown("left shift") && !m_rolling && !isdead)
+        {
+            m_rolling = true;
+            m_animator.SetTrigger("Roll");
+            m_body2d.linearVelocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.linearVelocity.y);
+        }
 
 
 
-            //Run
-            else if (Mathf.Abs(inputX) > Mathf.Epsilon || Mathf.Abs(inputY) > Mathf.Epsilon)
-            {
-                // Reset timer
-                m_delayToIdle = 0.05f;
-                m_animator.SetInteger("AnimState", 1);
-            }
+        //Run
+        else if (Mathf.Abs(inputX) > Mathf.Epsilon || Mathf.Abs(inputY) > Mathf.Epsilon)
+        {
+            // Reset timer
+            m_delayToIdle = 0.05f;
+            m_animator.SetInteger("AnimState", 1);
+        }
 
-            //Idle
-            else
-            {
-                // Prevents flickering transitions to idle
-                m_delayToIdle -= Time.deltaTime;
-                if (m_delayToIdle < 0)
-                    m_animator.SetInteger("AnimState", 0);
-            }
+        //Idle
+        else
+        {
+            // Prevents flickering transitions to idle
+            m_delayToIdle -= Time.deltaTime;
+            if (m_delayToIdle < 0)
+                m_animator.SetInteger("AnimState", 0);
+        }
 
 
 
@@ -188,9 +191,26 @@ public class HeroKnight : MonoBehaviour
             m_groundSensor.Disable(0.2f);
         }
         */
-        
 
-        
+
+        }
+
+    public void TakeDamagePlayer(int enemyDamage)
+    {
+        health -= enemyDamage;
+        if (health > 0 && !isdead)
+        {
+            m_animator.SetTrigger("Hurt");
+        }
+        else if (health <= 0 && !isdead)
+        {
+            m_animator.SetTrigger("Death");
+            OnDeath.Invoke();
+            isdead = true;
+
+        }
+            
+        }
 
 
 
@@ -248,4 +268,4 @@ public class HeroKnight : MonoBehaviour
         }
     }
     */
-}
+

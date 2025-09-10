@@ -6,6 +6,12 @@ public class EnemyMeleeBehavior : MonoBehaviour
     private Animator animator;
     private BoxCollider2D enemy_collider;
 
+    public BoxCollider2D SkeletonboxCollider2D;
+
+    public bool attackFatigue = false;
+
+    private bool dead = false;
+
 
    [SerializeField] bool attacking = false;
 
@@ -22,36 +28,66 @@ public class EnemyMeleeBehavior : MonoBehaviour
 
     // Attack when player enters trigger
     void OnTriggerEnter2D(Collider2D other)
-{
-    int layer = other.gameObject.layer;
-
-    if (layer == LayerMask.NameToLayer("SwordHitbox"))
     {
-        health -= 10;
-        animator.SetTrigger("IsHit");
-        Debug.Log("Enemy Health: " + health);
-        if (health <= 0)
+        int layer = other.gameObject.layer;
+
+        if (layer == LayerMask.NameToLayer("Player") && !attackFatigue && !dead)
         {
-            animator.SetTrigger("Death");
-            Destroy(gameObject, 1f);
+            animator.SetTrigger("IsInAttackRange");
+            attackFatigue = true;
+            animator.SetBool("AttackFatigue", attackFatigue);
+            Invoke("ResetAttackFatigue", 1f);
         }
     }
-    else if (layer == LayerMask.NameToLayer("Player"))
+
+
+    void ResetAttackFatigue()
     {
-        animator.SetTrigger("IsInAttackRange");
+        attackFatigue = false;
+        animator.SetBool("AttackFatigue", attackFatigue);
     }
-}
+    void TakeDamage(int damage)
+    {
+
+        health -= damage;
+        if (health > 0)
+        {
+            animator.SetTrigger("IsHit");
+        }
+        else if (health <= 0)
+        {
+            animator.SetTrigger("isDead");
+            Destroy(gameObject, 1f);
+            dead = true;
+            SkeletonboxCollider2D.enabled = false;
+        }
+
+
+    }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (!attacking)
+        Vector3 scale = transform.localScale;   
+        if (playertransform.position.x < transform.position.x && !dead)
+        {
+            scale.x = -2.42f;
+        }
+        else if (!dead)
+        {
+            scale.x = 2.42f;
+        }
+        transform.localScale = scale;
+
+        if (!attacking && !dead)
         {
             Vector2 direction = (playertransform.position - transform.position).normalized;
             transform.position += (Vector3)direction * Time.deltaTime;
         }
 
+        
+        /*
         if (transform.position.x < playertransform.position.x)
         {
             GetComponent<SpriteRenderer>().flipX = false;
@@ -61,5 +97,8 @@ public class EnemyMeleeBehavior : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().flipX = true;
         }
+        */
+
+
     }
 }
