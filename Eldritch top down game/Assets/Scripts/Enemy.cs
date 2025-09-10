@@ -10,6 +10,7 @@ public abstract class Enemy : Damageable
     protected bool isMoving;
     
     private Rigidbody2D rb;
+    private float turnTime;
 
     protected void Awake()
     {
@@ -24,7 +25,7 @@ public abstract class Enemy : Damageable
 
     protected abstract void Attack();
     
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
@@ -34,17 +35,12 @@ public abstract class Enemy : Damageable
 
     protected void TrackPlayer()
     {
-        if (playerTransform.position.x < transform.position.x)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
+        if (canMove) {
+            transform.localScale =
+                playerTransform.position.x < transform.position.x ?
+                new Vector3(-1, 1, 1) :
+                new Vector3(1, 1, 1);
 
-        if (canMove)
-        {
             Vector2 movementDirection = (playerTransform.position - transform.position).normalized;
             Vector2 velocity = movementDirection * movementSpeed;
             rb.linearVelocity = velocity;

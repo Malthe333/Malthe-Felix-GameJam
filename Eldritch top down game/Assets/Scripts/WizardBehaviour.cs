@@ -4,7 +4,12 @@ using UnityEngine.Rendering;
 [RequireComponent(typeof(Animator))]
 public class WizardBehaviour : Enemy
 {
+    public float minTimeBetweenAttacks = 0.5f;
+    public float afterAttackDelay = 2f;
+    
     private Animator animator;
+    private float lastAttackTime;
+    private bool attacksChained = false;
 
     // Precompute animation hashes
     private static readonly int Death = Animator.StringToHash("Death");
@@ -30,34 +35,38 @@ public class WizardBehaviour : Enemy
         {
             animator.SetBool(IsRunning, false);
         }
-        
-        AnimatorClipInfo animatorClipInfo = animator.GetCurrentAnimatorClipInfo(0)[0];
-        string animationName = animatorClipInfo.clip.name;
     }
 
     protected override void Attack()
     {
-        // Debug.Log("Attack Triggered");
-        AnimatorClipInfo animationInfo = animator.GetCurrentAnimatorClipInfo(0)[0];
-        string animationName = animationInfo.clip.name;
+        if (Time.time - lastAttackTime < minTimeBetweenAttacks)
+        {
+            return;
+        }
 
-        if (animationName == "Attack1")
-        {
-            animator.SetTrigger(Attack2);
-        } else if (animationName == "Attack2")
-        {
-            animator.SetTrigger(Attack1);
-        }
-        else
-        {
-            int trigger = Random.value > 0.5f ? Attack1 : Attack2;
-            animator.SetTrigger(trigger);
-        }
+        lastAttackTime = Time.time;
+        
+        int trigger = Random.value > 0.5f ? Attack1 : Attack2;
+        animator.SetTrigger(trigger);
+
+        BlockMovement();
+        CancelInvoke();
+        Invoke(nameof(AllowMovement), afterAttackDelay);
     }
 
     protected override void OnDeath()
     {
         animator.SetTrigger(Death);
         Destroy(gameObject, 1.2f);
+    }
+
+    void BlockMovement()
+    {
+        canMove = false;
+    }
+
+    void AllowMovement()
+    {
+        canMove = true;
     }
 }
