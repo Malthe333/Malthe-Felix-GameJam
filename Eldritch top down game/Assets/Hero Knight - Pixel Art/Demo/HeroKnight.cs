@@ -7,7 +7,7 @@ public class HeroKnight : MonoBehaviour
 {
 
     [SerializeField] float m_speed = 4.0f;
-    
+
     [SerializeField] float m_rollForce = 6.0f;
 
     [SerializeField] GameObject m_slideDust;
@@ -15,9 +15,16 @@ public class HeroKnight : MonoBehaviour
     public UnityEvent OnDeath;
 
     private Animator m_animator;
+
     private Rigidbody2D m_body2d;
 
+    public UnityEvent OnDarkBolt;
+
     public int health = 100;
+
+    private bool cancastDarkBolt = true;
+
+    public int corruption = 0;
 
     public bool isdead = false;
 
@@ -29,7 +36,7 @@ public class HeroKnight : MonoBehaviour
     private Sensor_HeroKnight   m_wallSensorL1;
     private Sensor_HeroKnight   m_wallSensorL2;
     */
-    
+
     private bool m_blocking = false;
     private bool m_rolling = false;
     private int m_facingDirection = 1;
@@ -152,7 +159,7 @@ public class HeroKnight : MonoBehaviour
         }
 
         // Roll
-        else if (Input.GetKeyDown("left shift") && !m_rolling && !isdead)
+        if (Input.GetKeyDown("left shift") && !m_rolling && !isdead && corruption >= 1)
         {
             m_rolling = true;
             m_animator.SetTrigger("Roll");
@@ -177,23 +184,23 @@ public class HeroKnight : MonoBehaviour
             if (m_delayToIdle < 0)
                 m_animator.SetInteger("AnimState", 0);
         }
-
-
-
-        //Jump
-        /*
-        else if (Input.GetKeyDown("space") && m_grounded && !m_rolling)
+        //Dark Bolt
+        if (Input.GetKeyDown("f") && !m_rolling && !isdead && cancastDarkBolt && corruption >= 3)
         {
-            m_animator.SetTrigger("Jump");
-            m_grounded = false;
-            m_animator.SetBool("Grounded", m_grounded);
-            m_body2d.linearVelocity = new Vector2(m_body2d.linearVelocity.x, m_jumpForce);
-            m_groundSensor.Disable(0.2f);
+            m_animator.SetTrigger("DarkBolt");
+            ///EffectsAnimator.SetTrigger("DarkBolt");
+            cancastDarkBolt = false;
+            OnDarkBolt.Invoke();
+            Invoke("ResetDarkBolt", 3.0f);
         }
-        */
 
 
-        }
+    }
+
+    private void ResetDarkBolt()
+    {
+        cancastDarkBolt = true;
+    }
 
     public void TakeDamagePlayer(int enemyDamage)
     {
@@ -209,63 +216,20 @@ public class HeroKnight : MonoBehaviour
             isdead = true;
 
         }
-            
-        }
 
+    }
 
+    public void IncreaseCorruption(int amount)
+    {
+        corruption += amount;
+    }
 
-
-
-        //m_body2d.linearVelocity = new Vector2(m_body2d.linearVelocity.x, inputY * m_speed);
-
-        //Set AirSpeed in animator
-        /*
-        m_animator.SetFloat("AirSpeedY", m_body2d.linearVelocity.y);
-        */
-        // -- Handle Animations --
-        //Wall Slide
-        /*
-        m_isWallSliding = (m_wallSensorR1.State() && m_wallSensorR2.State()) || (m_wallSensorL1.State() && m_wallSensorL2.State());
-        m_animator.SetBool("WallSlide", m_isWallSliding);
-        */
-        //Death
-
-        /*
-        if (Input.GetKeyDown("e") && !m_rolling)
-        {
-            m_animator.SetBool("noBlood", m_noBlood);
-            m_animator.SetTrigger("Death");
-        }
-        */
-
-        //Hurt
-        /*
-        else if (Input.GetKeyDown("q") && !m_rolling)
-            m_animator.SetTrigger("Hurt");
-        */
-
+    public void DecreaseCorruption(int amount)
+    {
+        corruption -= amount;
+    }
     }
     
 
-    // Animation Events
-    // Called in slide animation.
-    /*
-    void AE_SlideDust()
-    {
-        Vector3 spawnPosition;
-
-        if (m_facingDirection == 1)
-            spawnPosition = m_wallSensorR2.transform.position;
-        else
-            spawnPosition = m_wallSensorL2.transform.position;
-
-        if (m_slideDust != null)
-        {
-            // Set correct arrow spawn position
-            GameObject dust = Instantiate(m_slideDust, spawnPosition, gameObject.transform.localRotation) as GameObject;
-            // Turn arrow in correct direction
-            dust.transform.localScale = new Vector3(m_facingDirection, 1, 1);
-        }
-    }
-    */
+    
 
