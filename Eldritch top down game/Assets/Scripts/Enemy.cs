@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class Enemy : Damageable
 {
-    public Transform playerTransform;
+    public string playerTag = "Player";
     public float movementSpeed;
     public bool canMove = true;
     
@@ -11,10 +11,13 @@ public abstract class Enemy : Damageable
     
     private Rigidbody2D rb;
     private float turnTime;
+    private Transform playerTransform;
 
     protected void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        playerTransform = GameObject.FindGameObjectWithTag(playerTag).transform;
         
         if (playerTransform == null)
         {
@@ -36,11 +39,19 @@ public abstract class Enemy : Damageable
     protected void TrackPlayer()
     {
         if (canMove) {
-            transform.localScale =
-                playerTransform.position.x < transform.position.x ?
-                new Vector3(-1, 1, 1) :
-                new Vector3(1, 1, 1);
+            Vector3 scale = transform.localScale;
 
+            if (playerTransform.position.x < transform.position.x)
+            {
+                scale.x = -Mathf.Abs(scale.x);
+            }
+            else
+            {
+                scale.x = Mathf.Abs(scale.x);
+            }
+            
+            transform.localScale = scale;
+            
             Vector2 movementDirection = (playerTransform.position - transform.position).normalized;
             Vector2 velocity = movementDirection * movementSpeed;
             rb.linearVelocity = velocity;

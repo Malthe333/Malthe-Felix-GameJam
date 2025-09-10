@@ -17,11 +17,13 @@ public class EnemyMeleeBehavior : MonoBehaviour
 
     public int attackDamage = 10;
     public int health = 30;
+    public string playerTag = "Player";
 
-    public Transform playertransform;
+    private Transform playerTransform;
 
     void Start()
     {
+        playerTransform = GameObject.FindGameObjectWithTag(playerTag).transform;
         enemy_collider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
     }
@@ -70,7 +72,7 @@ public class EnemyMeleeBehavior : MonoBehaviour
     {
 
         Vector3 scale = transform.localScale;   
-        if (playertransform.position.x < transform.position.x && !dead)
+        if (playerTransform.position.x < transform.position.x && !dead)
         {
             scale.x = -2.42f;
         }
@@ -82,7 +84,7 @@ public class EnemyMeleeBehavior : MonoBehaviour
 
         if (!attacking && !dead)
         {
-            Vector2 direction = (playertransform.position - transform.position).normalized;
+            Vector2 direction = (playerTransform.position - transform.position).normalized;
             transform.position += (Vector3)direction * Time.deltaTime;
         }
 

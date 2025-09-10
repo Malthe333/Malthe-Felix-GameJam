@@ -694,6 +694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
   damage: 10
   enemyDamage: 0
+  isEnemy: 0
 --- !u!1 &9013660374251658338
 GameObject:
   m_ObjectHideFlags: 0

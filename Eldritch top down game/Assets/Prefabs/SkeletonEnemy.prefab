@@ -250,10 +250,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMeleeBehavior
   SkeletonboxCollider2D: {fileID: 2862842665263826583}
+  attackFatigue: 0
   attacking: 0
   attackDamage: 10
   health: 30
-  playertransform: {fileID: 0}
+  playertransform: {fileID: 8413529789942519730, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
 --- !u!1 &6651324850160117729
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,3 +348,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
   damage: 0
   enemyDamage: 5
+  isEnemy: 1
