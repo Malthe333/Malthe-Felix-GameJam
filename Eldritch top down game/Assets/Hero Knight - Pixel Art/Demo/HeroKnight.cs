@@ -25,6 +25,7 @@ public class HeroKnight : MonoBehaviour
     public UnityEvent OnDarkBolt;
 
     public int health = 100;
+    public int maxHealth = 100;
 
     private bool cancastDarkBolt = true;
 
@@ -238,13 +239,47 @@ public class HeroKnight : MonoBehaviour
     public void IncreaseCorruption(int amount)
     {
         corruption += amount;
+        if (corruption == 1)
+        {
+            SetMaxHealth(75);
+        }
+
+        if (corruption == 3)
+        {
+            SetMaxHealth(50);
+        }
     }
 
     public void DecreaseCorruption(int amount)
     {
         corruption -= amount;
+        if (corruption == 0)
+        {
+            SetMaxHealth(100);
+        }
+
+        if (corruption == 1)
+        {
+            SetMaxHealth(75);
+        }
+
+        if (corruption == 2)
+        {
+            SetMaxHealth(75);
+        }
     }
+
+    private void SetMaxHealth(int newMax)
+    {
+        maxHealth = newMax;
+        if (health > newMax)
+        {
+            health = newMax;
+        }
+        
+        statBar.SetStatMax(newMax);
     }
+}
     
 
     
