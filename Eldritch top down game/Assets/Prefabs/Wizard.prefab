@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19f2c6f416ab0556b45b40450c8101a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardBehaviour
-  health: 10
+  health: 50
   maxHealth: 100
   playerTag: Player
   movementSpeed: 3

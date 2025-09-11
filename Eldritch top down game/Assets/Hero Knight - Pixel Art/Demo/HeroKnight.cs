@@ -14,6 +14,8 @@ public class HeroKnight : MonoBehaviour
 
     public UnityEvent OnDeath;
 
+    public StatBar statBar;
+
     private Animator m_animator;
 
     public bool isFlipped;
@@ -54,6 +56,9 @@ public class HeroKnight : MonoBehaviour
     {
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
+
+        statBar.SetStatValue(health);
+        statBar.SetStatMax(health);
         /*
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_HeroKnight>();
         m_wallSensorR1 = transform.Find("WallSensor_R1").GetComponent<Sensor_HeroKnight>();
@@ -205,8 +210,6 @@ public class HeroKnight : MonoBehaviour
             }
             OnDarkBolt.Invoke();
         }
-
-
     }
 
     private void ResetDarkBolt()
@@ -217,6 +220,7 @@ public class HeroKnight : MonoBehaviour
     public void TakeDamagePlayer(int enemyDamage)
     {
         health -= enemyDamage;
+        statBar.SetStatValue(health);
         if (health > 0 && !isdead)
         {
             m_animator.SetTrigger("Hurt");
